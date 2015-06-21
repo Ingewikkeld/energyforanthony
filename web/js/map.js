@@ -162,9 +162,29 @@ var getQueryParameter = function(variable) {
     return false;
 }
 
+var getUriGeolocation = function(){
+    try {
+        var obj = {
+            lat : null,
+            lng : null,
+            zoom: 8
+        };
+        obj.lat = getQueryParameter('lat');
+        obj.lng = getQueryParameter('lng');
+        var mZoom = getQueryParameter('zoom');
+        if (mZoom) obj.zoom = mZoom;
+        if (!obj.lat || !obj.lng) return false;
+
+        return obj;
+    }catch(e){
+        return false;
+    }
+}
+
 var center = getQueryParameter('center');
 var coord = new L.LatLng(0,0);
 var zoom  = 2;
+var loc = getUriGeolocation();
 if(false !== loc) {
     coord.lat = loc.lat;
     coord.lng = loc.lng;
@@ -174,16 +194,6 @@ if(false !== loc) {
     coord.lat = mp.lat;
     coord.lng = mp.lng;
     zoom      = mp.zoom;
-}else{
-    navigator.geolocation.getCurrentPosition(function(position){
-        coord.lat = position.coords.latitude;
-        coord.lng = position.coords.longitude;
-        zoom = 8;
-        map.setView(coord, zoom);
-        return true;
-    },function(){
-        return true;
-    },{timeout:3000});
 }
 
 map.setView(coord, zoom)
