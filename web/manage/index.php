@@ -24,7 +24,8 @@ $app->post('/add', function (Request $request) use ($app) {
         'lat' => $request->get('lat'),
         'lon' => $request->get('lon'),
         'password' => $request->get('password'),
-        'email' => $request->get('email')
+        'email' => $request->get('email'),
+        'line_color' => $request->get('line_color')
     ];
     $result = $app['validator']->validate($data);
 
@@ -154,6 +155,7 @@ $app->get('/api/json', function () use ($app) {
         $group['latitude'] = $item['lat'];
         $group['longitude'] = $item['lon'];
         $group['message'] = $item['message'];
+        $group['line_color'] = $item['line_color'];
 
         $array['groups'][] = $group;
     }

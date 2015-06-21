@@ -19,7 +19,8 @@
         "symfony/twig-bridge": "~2.3",
         "doctrine/dbal": ">=2.2.0,<2.4.0-dev",
         "swiftmailer/swiftmailer": "5.*",
-        "particle/validator": "~1.0"
+        "particle/validator": "~1.0",
+        "robmorgan/phinx": "^0.4.4"
     },
   "autoload": {
     "psr-0": {"Energy\\": "src/"}

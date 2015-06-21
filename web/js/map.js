@@ -118,7 +118,6 @@ var phpug = L.layerJSON({
         return e.groups;
     },
     buildIcon : function(data){
-        console.log(data);
         if (data.state == 0) {
             return new darkIcon();
         }
@@ -127,9 +126,10 @@ var phpug = L.layerJSON({
         }
         return new L.Icon.Default;
     },
-    onEachMarker  : function(e, marker){
+    onEachMarker  : function(data, marker){
+        console.log(data);
         oms.addMarker(marker);
-        marker.bindLabel(e.name, {opacity:0.9});
+        marker.bindLabel(data.name, {opacity:0.9});
 
         var latlngs = Array();
 
@@ -138,7 +138,7 @@ var phpug = L.layerJSON({
 
         //Get latlng from first marker
         latlngs.push(anthony.getLatLng());
-        var polyline = L.polyline(latlngs, {color: 'darkblue'}).addTo(map);
+        var polyline = L.polyline(latlngs, {color: data.line_color}).addTo(map);
 
         return;
     }
