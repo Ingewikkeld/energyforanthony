@@ -1,0 +1,33 @@
+<div id="results">
+    <table>
+        <tr>
+            <th>Address</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+        </tr>
+        {% for record in results %}
+        <tr>
+            <td>
+                {{ record.name }}
+            </td>
+            <td>
+                {{ record.lat }}
+            </td>
+            <td>
+                {{ record.lon }}
+            </td>
+            <td>
+                <button onClick="use_coordinates({{ record.lat }}, {{ record.lon }});">Use coordinates</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<script type="text/javascript">
+
+    function use_coordinates(lat, lon) {
+        $('#lat').val(lat);
+        $('#lon').val(lon);
+    }
+</script>

@@ -1,0 +1,39 @@
+{% extends "layout/main.twig" %}
+
+{% block main %}
+    Don't know your latitude/longitude? Search here for your address:<br />
+    <sub>Sometimes the search doesn't work the first time around. Just try it a second time.</sub><br />
+    <input type="text" name="address" id="address" /> <button id="address_search" onClick="">Search</button>
+    <div id="results"></div><br />
+    <br />
+
+    <form method="post" action="/manage/add">
+        Your location (latitude/longitude): <input type="text" name="lat" id="lat" />/<input type="text" name="lon" id="lon" /><br />
+        <br />
+        Your name/nickname: <input type="text" name="name" /><br />
+        <br />
+        Your message:<br />
+        <textarea name="message"></textarea>
+        <br />
+        Your e-mailaddress (optional, required for later login): <input type="text" name="email" /><br />
+        <br />
+        Your password (optional, required for later login): <input type="password" name="password" /><br />
+        <br />
+        <input type="submit" value="Share your energy" />
+    </form>
+
+<script type="text/javascript">
+$("#address_search").click(function () {
+
+    $.ajax({
+        method: "POST",
+        url: "/manage/api/address",
+        data: { address: $('#address').val() }
+    }).done(function( html ) {
+        $( "#results" ).replaceWith( html );
+    });;
+
+});
+</script>
+
+{% endblock %}
