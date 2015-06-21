@@ -48,6 +48,10 @@ $app->get('/edit/{id}', function ($id) use ($app) {
         return $app['twig']->render('login.twig', ['id' => $id]);
     }
 
+    if ($id !== $app['session']->get('energy')['id']) {
+        return new \Symfony\Component\HttpFoundation\RedirectResponse('/');
+    }
+
     $errors = [];
     if ($app['session']->has('errors')) {
         $errors = $app['session']->get('errors');
