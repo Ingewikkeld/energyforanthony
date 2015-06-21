@@ -194,16 +194,6 @@ if(false !== loc) {
     coord.lat = mp.lat;
     coord.lng = mp.lng;
     zoom      = mp.zoom;
-}else{
-    navigator.geolocation.getCurrentPosition(function(position){
-        coord.lat = position.coords.latitude;
-        coord.lng = position.coords.longitude;
-        zoom = 8;
-        map.setView(coord, zoom);
-        return true;
-    },function(){
-        return true;
-    },{timeout:3000});
 }
 
 map.setView(coord, zoom)
