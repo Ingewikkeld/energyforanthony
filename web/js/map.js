@@ -91,9 +91,7 @@ var phpug = L.layerJSON({
     buildPopup    : function (data) {
         var content = '<div class="popup">'
                 + '<h4>'
-                + '<a href="%url%" target="_blank">'
                 + '%name%'
-                + '</a>'
                 + '</h4>';
         if (data['message']) {
             content = content + '<h5>Message</h5>'
