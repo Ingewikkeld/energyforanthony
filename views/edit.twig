@@ -38,6 +38,14 @@
             <button type="submit" class="btn btn-success" style="float: right">Update your energy!</button>
         </div>
     </form>
+    <br /><br />
+    <hr />
+    <form method="post" action="/manage/delete/{{ id }}">
+        <div class="form-group">
+            <p class="text-danger">When you press the below button your entry will be removed from our database. We will not be able to restore it</p>
+            <button type="submit" class="btn btn-danger" style="float: right">Delete your entry</button>
+        </div>
+    </form>
 
     <script type="text/javascript">
         $("#address_search").submit(function () {

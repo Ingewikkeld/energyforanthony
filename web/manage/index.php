@@ -48,6 +48,10 @@ $app->get('/edit/{id}', function ($id) use ($app) {
         return $app['twig']->render('login.twig', ['id' => $id]);
     }
 
+    if ($id !== $app['session']->get('energy')['id']) {
+        return new \Symfony\Component\HttpFoundation\RedirectResponse('/');
+    }
+
     $errors = [];
     if ($app['session']->has('errors')) {
         $errors = $app['session']->get('errors');
@@ -62,6 +66,14 @@ $app->get('/edit/{id}', function ($id) use ($app) {
 });
 
 $app->post('/edit/{id}', function (Request $request, $id) use ($app) {
+    if (null === $user = $app['session']->get('energy')) {
+        return $app['twig']->render('login.twig', ['id' => $id]);
+    }
+
+    if ($id !== $app['session']->get('energy')['id']) {
+        return new \Symfony\Component\HttpFoundation\RedirectResponse('/');
+    }
+
     /** @var \Doctrine\DBAL\Connection $db */
     $db = $app['db'];
 
@@ -86,6 +98,24 @@ $app->post('/edit/{id}', function (Request $request, $id) use ($app) {
     }
 
     return new \Symfony\Component\HttpFoundation\RedirectResponse('/manage/edit/' . $app['session']->get('energy')['id']);
+});
+
+$app->post('/delete/{id}', function ($id) use ($app) {
+    if (null === $user = $app['session']->get('energy')) {
+        return $app['twig']->render('login.twig', ['id' => $id]);
+    }
+
+    if ($id !== $app['session']->get('energy')['id']) {
+        return new \Symfony\Component\HttpFoundation\RedirectResponse('/');
+    }
+
+    /** @var \Doctrine\DBAL\Connection $db */
+    $db = $app['db'];
+
+    $db->delete('energy', ['id' => $app['session']->get('energy')['id']]);
+    $app['session']->clear();
+
+    return new \Symfony\Component\HttpFoundation\RedirectResponse('/');
 });
 
 $app->post('/login/{id}', function (Request $request, $id) use ($app) {
