@@ -203,7 +203,7 @@ L.control.layers({
     'OpenStreetMap' : openstreetmap,
     'Satellite'  : esriSatellite
 },{
-    'PHP-Usergroups' : phpug,
+    'Energy' : phpug,
 },{
     'position' : 'bottomleft'
 }).addTo(map);
