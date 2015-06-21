@@ -1,27 +1,31 @@
-<div id="results">
-    <table>
-        <tr>
-            <th>Address</th>
-            <th>Latitude</th>
-            <th>Longitude</th>
-        </tr>
-        {% for record in results %}
-        <tr>
-            <td>
-                {{ record.name }}
-            </td>
-            <td>
-                {{ record.lat }}
-            </td>
-            <td>
-                {{ record.lon }}
-            </td>
-            <td>
-                <button onClick="use_coordinates({{ record.lat }}, {{ record.lon }});">Use coordinates</button>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+<div id="results" style="margin-top: 20px;">
+    {% if results|length == 0 %}
+        <div class="alert alert-danger">
+            We were unable to find the location of your address. It can occur that there was an error so you can
+            <a href="#" onclick="$('#address_search').submit();return false;">try again</a>, or enter the longitude and latitude
+            of your address below if you know them.
+        </div>
+    {% else %}
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <table>
+                    <tr>
+                        <th>Address</th>
+                    </tr>
+                    {% for record in results %}
+                        <tr>
+                            <td>
+                                {{ record.name }}
+                            </td>
+                            <td>
+                                <button class="btn btn-success" onclick="use_coordinates({{ record.lat }}, {{ record.lon }});">Use coordinates</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    {% endif %}
 </div>
 
 <script type="text/javascript">
@@ -29,5 +33,6 @@
     function use_coordinates(lat, lon) {
         $('#lat').val(lat);
         $('#lon').val(lon);
+        $('#results').hide();
     }
 </script>
