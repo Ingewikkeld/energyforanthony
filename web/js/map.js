@@ -97,44 +97,13 @@ var phpug = L.layerJSON({
             content = content + '<h5>Message</h5>'
             + data['message'];
         }
+        content = content + '<br /><a href="/manage/edit/' + data.id + '" title="Edit"><i class="fa fa-edit"></i></a>';
         content = content +'</div>'
             ;
 
-        var contact = '<a href="%url%" title="%value%" target="_blank">'
-            + '<i class="%cssClass%"></i>'
-            + '</a>';
-        var contacts = [];
-
-        if (data.icalendar_url) {
-            contacts.push(
-                contact.replace(/%type%/, 'icalendar')
-                    .replace(/%url%/, data.icalendar_url)
-                    .replace(/%value%/, 'iCal-File')
-                    .replace(/%cssClass%/, 'fa-calendar fa')
-            );
-        }
-
-        for (i in data.contacts) {
-            cont = data.contacts[i];
-            contacts.push(
-                contact.replace(/%type%/, cont.type.toLowerCase())
-                    .replace(/%url%/, cont.url)
-                    .replace(/%value%/, cont.name)
-                    .replace(/%cssClass%/, cont.cssClass)
-            );
-        }
-        if (data.edit) {
-            var edit = '<a href="ug/edit/' + data.shortname + '" title="Edit"><i class="fa fa-edit"></i></a>';
-            contacts.push(edit);
-        }
-        contacts = contacts.join('</li><li>');
-        if (contacts) {
-            contacts = '<ul><li>' + contacts + '</li></ul>';
-        }
         content = content.replace(/%url%/, data.url)
             .replace(/%name%/, data.name)
-            .replace(/%shortname%/, data.shortname)
-            .replace(/%contacts%/, contacts);
+            .replace(/%shortname%/, data.shortname);
 
         if (center && center === data.shortname){
             map.setView(new L.LatLng(data.latitude,data.longitude), 8);

@@ -5,9 +5,9 @@ require_once __DIR__.'/../../vendor/autoload.php';
 use Symfony\Component\HttpFoundation\Request;
 
 $app = new Silex\Application();
-$app['debug'] = true;
 
 require_once __DIR__.'/../../config/config.php';
+require_once __DIR__.'/../../config/bootstrap.php';
 
 $app->get('/about', function() use ($app) {
     return $app['twig']->render('about.twig', []);
@@ -41,6 +41,65 @@ $app->post('/add', function (Request $request) use ($app) {
     $db->insert('energy', $data);
 
     return $app['twig']->render('added.twig', []);
+});
+
+$app->get('/edit/{id}', function ($id) use ($app) {
+    if (null === $user = $app['session']->get('energy')) {
+        return $app['twig']->render('login.twig', ['id' => $id]);
+    }
+
+    $errors = [];
+    if ($app['session']->has('errors')) {
+        $errors = $app['session']->get('errors');
+        $app['session']->remove('errors');
+    }
+
+    return $app['twig']->render('edit.twig', [
+        'id' => $app['session']->get('energy')['id'],
+        'energy' => $app['session']->get('energy'),
+        'errors' => $errors
+    ]);
+});
+
+$app->post('/edit/{id}', function (Request $request, $id) use ($app) {
+    /** @var \Doctrine\DBAL\Connection $db */
+    $db = $app['db'];
+
+    $data = [
+        'name' => $request->get('name'),
+        'message' => $request->get('message'),
+        'lat' => $request->get('lat'),
+        'lon' => $request->get('lon')
+    ];
+
+    if ($app['updateValidator']->validate($data)) {
+        $energy = $app['session']->get('energy');
+        $energy['name'] = $request->get('name');
+        $energy['message'] = $request->get('message');
+        $energy['lat'] = $request->get('lat');
+        $energy['lon'] = $request->get('lon');
+        $app['session']->set('energy', $energy);
+
+        $db->update('energy', $data, ['id' => $app['session']->get('energy')['id']]);
+    } else {
+        $app['session']->set('errors', $app['updateValidator']->getMessages());
+    }
+
+    return new \Symfony\Component\HttpFoundation\RedirectResponse('/manage/edit/' . $app['session']->get('energy')['id']);
+});
+
+$app->post('/login/{id}', function (Request $request, $id) use ($app) {
+    /** @var \Doctrine\DBAL\Connection $db */
+    $db = $app['db'];
+    $result = $db->fetchAssoc("SELECT * FROM energy WHERE id=:id", ['id' => $id]);
+    if (
+        $result['email'] == $request->get('email') &&
+        $result['password'] == md5($app['salt'] . $request->get('password'))
+    ) {
+        $app['session']->set('energy', $result);
+    }
+
+    return new \Symfony\Component\HttpFoundation\RedirectResponse('/manage/edit/' . $result['id']);
 });
 
 $app->get('/api/json', function () use ($app) {
