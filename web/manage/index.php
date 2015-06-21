@@ -4,7 +4,9 @@ require_once __DIR__.'/../../vendor/autoload.php';
 
 use Symfony\Component\HttpFoundation\Request;
 
-$app = new Silex\Application();
+$app = new Silex\Application([
+    'debug' => false
+]);
 
 require_once __DIR__.'/../../config/config.php';
 require_once __DIR__.'/../../config/bootstrap.php';
@@ -82,7 +84,8 @@ $app->post('/edit/{id}', function (Request $request, $id) use ($app) {
         'name' => $request->get('name'),
         'message' => $request->get('message'),
         'lat' => $request->get('lat'),
-        'lon' => $request->get('lon')
+        'lon' => $request->get('lon'),
+        'line_color' => $request->get('line_color')
     ];
 
     if ($app['updateValidator']->validate($data)) {
@@ -91,6 +94,7 @@ $app->post('/edit/{id}', function (Request $request, $id) use ($app) {
         $energy['message'] = $request->get('message');
         $energy['lat'] = $request->get('lat');
         $energy['lon'] = $request->get('lon');
+        $energy['line_color'] = $request->get('line_color');
         $app['session']->set('energy', $energy);
 
         $db->update('energy', $data, ['id' => $app['session']->get('energy')['id']]);

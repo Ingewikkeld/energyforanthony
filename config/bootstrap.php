@@ -10,12 +10,7 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
 
 $app->register(new Silex\Provider\SessionServiceProvider());
 
-$app['validator'] = new \Particle\Validator\Validator();
-$app['validator']->required('name')->allowEmpty(false);
-$app['validator']->optional('message');
-$app['validator']->optional('password');
-$app['validator']->optional('email')->email();
-$app['validator']->required('line_color')->inArray([
+$colorList = [
     'AliceBlue',
     'AntiqueWhite',
     'Aqua',
@@ -156,7 +151,14 @@ $app['validator']->required('line_color')->inArray([
     'WhiteSmoke',
     'Yellow',
     'YellowGreen',
-]);
+];
+
+$app['validator'] = new \Particle\Validator\Validator();
+$app['validator']->required('name')->allowEmpty(false);
+$app['validator']->optional('message');
+$app['validator']->optional('password');
+$app['validator']->optional('email')->email();
+$app['validator']->required('line_color')->inArray($colorList);
 $app['validator']->required('lat')->allowEmpty(false);
 $app['validator']->required('lon')->allowEmpty(false);
 
@@ -165,5 +167,6 @@ $app['updateValidator']->required('lat')->allowEmpty(false);
 $app['updateValidator']->required('lon')->allowEmpty(false);
 $app['updateValidator']->required('name')->allowEmpty(false);
 $app['updateValidator']->optional('message');
+$app['updateValidator']->required('line_color')->inArray($colorList);
 
 $app['maps'] = new \Energy\Maps($app['bing_api_key']);
