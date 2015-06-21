@@ -1,0 +1,57 @@
+{% extends "layout/main.twig" %}
+
+{% block main %}
+    <form class="form-inline" id="address_search">
+        <div class="form-group">
+            <label for="address">Search here for your address</label>
+            <input type="text" class="form-control" name="address" id="address" />
+        </div>
+        <button class="btn btn-default" type="submit">Search</button>
+    </form>
+    <div id="results"></div>
+    <hr />
+    {% for field, errormessages in errors %}
+        {% for message in errormessages %}
+            <strong style="color:red;">{{ message }}</strong>
+        {% endfor %}
+    {% endfor %}
+    <form method="post" action="/manage/edit/{{ id }}">
+        <fieldset title="Your location">
+            <div class="form-group">
+                <label for="lat">Latitude</label>
+                <input type="text" class="form-control" name="lat" id="lat" value="{{ energy.lat }}" />
+            </div>
+            <div class="form-group">
+                <label for="lon">Longitude</label>
+                <input type="text" class="form-control" name="lon" id="lon" value="{{ energy.lon }}" />
+            </div>
+        </fieldset>
+        <div class="form-group">
+            <label for="name">Your name / nickname</label>
+            <input type="text" class="form-control" name="name" id="name" value="{{ energy.name }}" />
+        </div>
+        <div class="form-group">
+            <label for="message">Your message</label>
+            <textarea name="message" class="form-control" id="message" rows="6">{{ energy.message }}</textarea>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-success" style="float: right">Update your energy!</button>
+        </div>
+    </form>
+
+    <script type="text/javascript">
+        $("#address_search").submit(function () {
+
+            $.ajax({
+                method: "POST",
+                url: "/manage/api/address",
+                data: { address: $('#address').val() }
+            }).done(function( html ) {
+                $( "#results" ).replaceWith( html );
+            });
+
+            return false;
+        });
+    </script>
+
+{% endblock %}
