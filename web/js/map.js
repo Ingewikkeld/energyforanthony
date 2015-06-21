@@ -209,18 +209,6 @@ L.control.layers({
 }).addTo(map);
 
 switch(window.location.hash) {
-    case '#mentoring':
-        map.addLayer(mentoring);
-        break;
-    case '#events':
-    case '#event':
-    case '#joindin':
-    case '#joind.in':
-        map.addLayer(joindin);
-        break;
-    case '#cfp':
-        map.addLayer(cfp);
-        break;
     default:
         map.addLayer(phpug);
         break;
