@@ -72,7 +72,11 @@ var redMarker = L.VectorMarkers.icon({
     markerColor: 'red'
 });
 
-var anthony = L.marker([42.4475,-71.2333], {icon: redMarker, zIndexOffset: 10000}).addTo(map);
+var anthony = L.marker([42.4475,-71.2333], {icon: redMarker, zIndexOffset: 10000, title: 'C. Anthony Martignetti'}).addTo(map);
+    anthony.bindPopup("<b>C. Anthony Martignetti</b>"
+        +"<br><a href='http://www.camstories.net'><i class='fa fa-globe'></i> www.camstories.net</a>"
+        +"<br><a href='https://www.facebook.com/camstories?fref=ts'><i class='fa fa-facebook'></i> camstories</a>"
+        +"<br><a href='https://twitter.com/dramartignetti'><i class='fa fa-twitter'></i> @dramartignetti</a>");
 
 var openstreetmap = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>',
