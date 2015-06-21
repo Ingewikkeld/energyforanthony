@@ -72,7 +72,7 @@ var redMarker = L.VectorMarkers.icon({
     markerColor: 'red'
 });
 
-var anthony = L.marker([42.4475,-71.2333], {icon: redMarker}).addTo(map);
+var anthony = L.marker([42.4475,-71.2333], {icon: redMarker, zIndexOffset: 10000}).addTo(map);
 
 var openstreetmap = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>',
