@@ -98,7 +98,7 @@ var phpug = L.layerJSON({
                 + '%name%'
                 + '</h4>';
         if (data['message']) {
-            content = content + '<h5>Message</h5>'
+            content = content 
             + data['message'];
         }
         content = content + '<br /><a href="/manage/edit/' + data.id + '" title="Edit"><i class="fa fa-edit"></i></a>';
