@@ -1,0 +1,11 @@
+{% extends "layout/main.twig" %}
+
+{% block main %}
+    <h1>Messages</h1>
+    <table class="table" style="font-size: 1.1em">
+        <tr><th>Who?</th><th>Wishes for Anthony</th></tr>
+        {% for message in messages %}
+        <tr><td>{{ message.name }}</td><td>{{ message.message }}</td></tr>
+        {% endfor %}
+    </table>
+{% endblock %}
