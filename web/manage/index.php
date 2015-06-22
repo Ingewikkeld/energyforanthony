@@ -19,6 +19,14 @@ $app->get('/add', function () use ($app) {
     return $app['twig']->render('add.twig', []);
 });
 
+$app->get('/list', function () use ($app) {
+    $db = $app['db'];
+    $result = $db->fetchAll("SELECT `name`, `message` FROM energy WHERE approval_status = 'approved'", []);
+
+    return $app['twig']->render('list.twig', [ 'messages' => $result]);
+});
+
+
 $app->post('/add', function (Request $request) use ($app) {
     $data = [
         'name' => $request->get('name'),
